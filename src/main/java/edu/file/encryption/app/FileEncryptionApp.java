@@ -14,6 +14,7 @@ public class FileEncryptionApp extends Application {
 		primaryStage.setTitle("File Encryption App");
 		primaryStage.setScene(new Scene(root, 1000, 700));
 		primaryStage.show();
+		// Test
 	}
 
 	public static void main(String[] args) {

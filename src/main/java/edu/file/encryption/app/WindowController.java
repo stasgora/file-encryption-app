@@ -17,7 +17,10 @@ public class WindowController {
 	public TextField outputFileName;
 	public Button sendButton;
 	public ProgressBar sendProgressBar;
+	public Label stateLabel;
 	private Stage stage;
+
+	private static final String BASE_INPUT_FILE_TEXT = "Input file: ";
 
 	public void init(Stage stage) {
 		this.stage = stage;
@@ -27,6 +30,16 @@ public class WindowController {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Choose File");
 		File file = fileChooser.showOpenDialog(stage);
+		if(file == null || !file.exists()) {
+			return;
+		}
+		setUIComponentActiveState(true);
+		inputFileLabel.setText(BASE_INPUT_FILE_TEXT + file.getAbsolutePath());
+	}
+
+	private void setUIComponentActiveState(boolean active) {
+		sendButton.setDisable(!active);
+		outputFileName.setDisable(!active);
 	}
 
 	public void exit(ActionEvent actionEvent) {

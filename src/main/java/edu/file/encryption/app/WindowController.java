@@ -1,14 +1,13 @@
 package edu.file.encryption.app;
 
 import edu.file.encryption.component.CryptoComponent;
+import edu.file.encryption.component.enums.CipherAlgorithmMode;
 import edu.file.encryption.component.interfaces.ICryptoComponent;
 import edu.file.protocol.component.FileSender;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -29,10 +28,13 @@ public class WindowController {
 	public ProgressBar sendProgressBar;
 	public Label stateLabel;
 	public TextField recipient;
+	public ChoiceBox algorithmMode;
 	private Stage stage;
 
 	private ICryptoComponent cryptoComponent;
 	private FileSender fileSender;
+
+	private File chosenFile;
 
 	private static final String BASE_INPUT_FILE_TEXT = "Input file: ";
 	private static final String RECIPIENT_IP = "";
@@ -41,14 +43,16 @@ public class WindowController {
 		this.stage = stage;
 		cryptoComponent = new CryptoComponent("user", "pass");
 		try {
-			fileSender = new FileSender(new FileTransferEventHandler(sendProgressBar), cryptoComponent, Inet4Address.getByName(RECIPIENT_IP));
+			fileSender = new FileSender(new FileTransferEventHandler(sendProgressBar, stateLabel), cryptoComponent, Inet4Address.getByName(RECIPIENT_IP));
 		} catch (UnknownHostException e) {
 			LOGGER.log(Level.SEVERE, "No recipient with IP " + RECIPIENT_IP + " found", e);
 		}
+		algorithmMode.getItems().setAll(CipherAlgorithmMode.values());
+		algorithmMode.setValue(CipherAlgorithmMode.CBC);
 	}
 
 	public void sendFile(ActionEvent event) {
-
+		fileSender.sendFile(chosenFile, recipient.getText(), (CipherAlgorithmMode) algorithmMode.getValue());
 	}
 
 	public void loadFile(ActionEvent event) {
@@ -58,6 +62,8 @@ public class WindowController {
 		if(file == null || !file.exists()) {
 			return;
 		}
+		chosenFile = file;
+		stateLabel.setText("");
 		setUIComponentActiveState(true);
 		inputFileLabel.setText(BASE_INPUT_FILE_TEXT + file.getAbsolutePath());
 	}
@@ -65,6 +71,7 @@ public class WindowController {
 	private void setUIComponentActiveState(boolean active) {
 		outputFileName.setDisable(!active);
 		recipient.setDisable(!active);
+		algorithmMode.setDisable(!active);
 	}
 
 	public void exit(ActionEvent actionEvent) {

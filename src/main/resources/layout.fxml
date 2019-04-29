@@ -27,10 +27,6 @@
 			<TextField fx:id="outputFileName" disable="true" onKeyReleased="#keyTyped" />
 		</HBox>
 		<HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="56.0" prefHeight="15.0" prefWidth="514.0" spacing="10.0">
-			<Label text="Recipient:" />
-			<TextField fx:id="recipient" disable="true" onKeyReleased="#keyTyped" />
-		</HBox>
-		<HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="56.0" prefHeight="15.0" prefWidth="514.0" spacing="10.0">
 			<Label text="Encryption mode:" />
 			<ChoiceBox prefWidth="150.0" fx:id="algorithmMode" disable="true" />
 		</HBox>

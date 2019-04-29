@@ -27,7 +27,6 @@ public class WindowController {
 	public Button sendButton;
 	public ProgressBar sendProgressBar;
 	public Label stateLabel;
-	public TextField recipient;
 	public ChoiceBox algorithmMode;
 	private Stage stage;
 
@@ -41,7 +40,7 @@ public class WindowController {
 
 	public void init(Stage stage) {
 		this.stage = stage;
-		cryptoComponent = new CryptoComponent("user", "pass");
+		cryptoComponent = new CryptoComponent();
 		try {
 			fileSender = new FileSender(new FileTransferEventHandler(sendProgressBar, stateLabel), cryptoComponent, Inet4Address.getByName(RECIPIENT_IP));
 		} catch (UnknownHostException e) {
@@ -52,7 +51,7 @@ public class WindowController {
 	}
 
 	public void sendFile(ActionEvent event) {
-		fileSender.sendFile(chosenFile, recipient.getText(), (CipherAlgorithmMode) algorithmMode.getValue());
+		fileSender.sendFile(chosenFile, (CipherAlgorithmMode) algorithmMode.getValue());
 	}
 
 	public void loadFile(ActionEvent event) {
@@ -70,7 +69,6 @@ public class WindowController {
 
 	private void setUIComponentActiveState(boolean active) {
 		outputFileName.setDisable(!active);
-		recipient.setDisable(!active);
 		algorithmMode.setDisable(!active);
 	}
 
@@ -79,6 +77,6 @@ public class WindowController {
 	}
 
 	public void keyTyped(KeyEvent event) {
-		sendButton.setDisable(recipient.getText().isEmpty() || outputFileName.getText().isEmpty());
+		sendButton.setDisable(outputFileName.getText().isEmpty());
 	}
 }

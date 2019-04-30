@@ -22,9 +22,9 @@
 	</MenuBar>
 	<VBox prefHeight="201.0" prefWidth="296.0" spacing="20.0" VBox.vgrow="ALWAYS">
 		<Label fx:id="inputFileLabel" text="No file chosen" />
-		<HBox alignment="CENTER_LEFT" prefHeight="15.0" prefWidth="514.0" spacing="10.0">
-			<Label text="Output file name:" />
-			<TextField fx:id="outputFileName" disable="true" onKeyReleased="#keyTyped" />
+		<HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="56.0" prefHeight="15.0" prefWidth="514.0" spacing="10.0">
+			<Label text="Recipient:" />
+			<TextField fx:id="recipient" disable="true" onKeyReleased="#keyTyped" />
 		</HBox>
 		<HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="56.0" prefHeight="15.0" prefWidth="514.0" spacing="10.0">
 			<Label text="Encryption mode:" />

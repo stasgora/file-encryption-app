@@ -23,7 +23,7 @@ public class WindowController {
 	private static final Logger LOGGER = Logger.getLogger(WindowController.class.getName());
 
 	public Label inputFileLabel;
-	public TextField outputFileName;
+	public TextField recipient;
 	public Button sendButton;
 	public ProgressBar sendProgressBar;
 	public Label stateLabel;
@@ -36,7 +36,7 @@ public class WindowController {
 	private File chosenFile;
 
 	private static final String BASE_INPUT_FILE_TEXT = "Input file: ";
-	private static final String RECIPIENT_IP = "";
+	private static final String RECIPIENT_IP = "127.0.0.1";
 
 	public void init(Stage stage) {
 		this.stage = stage;
@@ -51,7 +51,7 @@ public class WindowController {
 	}
 
 	public void sendFile(ActionEvent event) {
-		fileSender.sendFile(chosenFile, (CipherAlgorithmMode) algorithmMode.getValue());
+		fileSender.sendFile(chosenFile, (CipherAlgorithmMode) algorithmMode.getValue(), recipient.getText());
 	}
 
 	public void loadFile(ActionEvent event) {
@@ -68,7 +68,7 @@ public class WindowController {
 	}
 
 	private void setUIComponentActiveState(boolean active) {
-		outputFileName.setDisable(!active);
+		recipient.setDisable(!active);
 		algorithmMode.setDisable(!active);
 	}
 
@@ -77,6 +77,6 @@ public class WindowController {
 	}
 
 	public void keyTyped(KeyEvent event) {
-		sendButton.setDisable(outputFileName.getText().isEmpty());
+		sendButton.setDisable(recipient.getText().isEmpty());
 	}
 }

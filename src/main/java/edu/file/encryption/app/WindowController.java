@@ -42,12 +42,16 @@ public class WindowController {
 		this.stage = stage;
 		cryptoComponent = new CryptoComponent();
 		try {
-			fileSender = new FileSender(new FileTransferEventHandler(sendProgressBar, stateLabel), cryptoComponent, Inet4Address.getByName(RECIPIENT_IP));
+			fileSender = new FileSender(new FileTransferEventHandler(sendProgressBar, stateLabel), this::fileSent, cryptoComponent, Inet4Address.getByName(RECIPIENT_IP));
 		} catch (UnknownHostException e) {
 			LOGGER.log(Level.SEVERE, "No recipient with IP " + RECIPIENT_IP + " found", e);
 		}
 		algorithmMode.getItems().setAll(CipherAlgorithmMode.values());
 		algorithmMode.setValue(CipherAlgorithmMode.CBC);
+	}
+
+	private void fileSent() {
+		Platform.runLater(() -> stateLabel.setText(""));
 	}
 
 	public void sendFile(ActionEvent event) {

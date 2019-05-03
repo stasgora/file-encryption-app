@@ -51,10 +51,16 @@ public class WindowController {
 	}
 
 	private void fileSent() {
-		Platform.runLater(() -> stateLabel.setText(""));
+		Platform.runLater(() -> {
+			stateLabel.setText("");
+			LOGGER.log(Level.INFO, "File transfer time: " + (System.currentTimeMillis() - fileSendStartTime) / 1000f + "s");
+		});
 	}
 
+	long fileSendStartTime;
+
 	public void sendFile(ActionEvent event) {
+		fileSendStartTime = System.currentTimeMillis();
 		fileSender.sendFile(chosenFile, (CipherAlgorithmMode) algorithmMode.getValue(), recipient.getText());
 	}
 
